@@ -75,11 +75,11 @@ function findTheWall() {
       topWallHit = true;
       playerY -= speed;
     }
-  } 
-  else if (wallhit !== true) {
-    topWallHit = false;
-    leftWallHit = false;
-    rightWallHit = false;
+  }
+  if (wallhit === true) {
+    if (keyIsDown(68)) {
+      rightWallHit === true; 
+    }
   }
 }
 
@@ -157,7 +157,7 @@ function handleKeys() {
   }
   if (keyIsDown(68)) {
     //d
-    if (wallhit === false) {
+    if (rightWallHit === false) {
       playerX += speed;
     }
   }
