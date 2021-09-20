@@ -54,32 +54,19 @@ function draw() {
   //
   rightwallhitbox();
   //
-  // findTheWall(); //find which side of the wall is being touched
-  //
   gravity();
 }
 
 function gravity() {
-  //   if (playerY > rectY - radius * 2) {
-  //     rectY - radius * 2
-  //     dy = 0;
-  //   }
-  //   else {
-  //     playerY += dy;
-  //     dy += gravity;
-  //   }
+  if (playerY >= rectY - radius * 2) {
+    rectY - radius * 2;
+    dy = 0;
+  }
+  else {
+    playerY += dy;
+    dy += grav;   
+  }
 }
-
-//function findTheWall() {
-//if (topOfWallhit === true) {
-//     if (keyIsDown(83)) {
-//       if (playerY + radius*2 > rectY) {
-//         topWallHit = true;
-//         playerY -= speed;
-//       }
-//     }
-//   }
-// }
 
 function drawFloor() {
   rect(0, rectY, width, height * 0.1);
@@ -174,7 +161,8 @@ function handleKeys() {
       playerX += speed;
     }
   }
-  if (keyIsDown(32)) {
+  if (keyPressed()) {
+    if (keyCode === 32)
     //spacebar
     dy = -5;
   }
