@@ -16,8 +16,6 @@ let rectH;
 let radius = 25;
 let speed = 5;
 let spacebardown = false;
-let rightWallHit;
-let leftWallHit = false;
 let topWallHit = false;
 let grav = 0.1;
 let dy = 1;
@@ -34,8 +32,9 @@ function setup() {
 }
 
 let floorhit = false;
-let wallhit = false;
+let leftwallhit = false;
 let topOfWallhit = false;
+let rightwallhit = false;
 
 function draw() {
   background(220);
@@ -49,12 +48,14 @@ function draw() {
   //
   floorhitbox();
   //
-  wallhitbox();
+  leftwallhitbox();
   //
   topOfWallhitbox();
-  // //
-  findTheWall(); //find which side of the wall is being touched
-  // //
+  //
+  rightwallhitbox();
+  //
+  // findTheWall(); //find which side of the wall is being touched
+  //
   gravity();
 }
 
@@ -69,22 +70,16 @@ function gravity() {
   //   }
 }
 
-function findTheWall() {
-  if (topOfWallhit === true) {
-    if (keyIsDown(83)) {
-      topWallHit = true;
-      playerY -= speed;
-    }
-  }
-  if (wallhit === true) {
-    if (keyIsDown(68)) {
-      rightWallHit === true; 
-    }
-  }
-  else if (wallhit === false) {
-    rightWallHit = false;
-  }
-}
+//function findTheWall() {
+//if (topOfWallhit === true) {
+//     if (keyIsDown(83)) {
+//       if (playerY + radius*2 > rectY) {
+//         topWallHit = true;
+//         playerY -= speed;
+//       }
+//     }
+//   }
+// }
 
 function drawFloor() {
   rect(0, rectY, width, height * 0.1);
@@ -111,11 +106,24 @@ function floorhitbox() {
   );
 }
 
-function wallhitbox() {
-  wallhit = collideRectRect(
+function leftwallhitbox() {
+  leftwallhit = collideRectRect(
+    width * 0.45 + 50,
+    rectY - 199,
+    1,
+    200,
+    playerX,
+    playerY,
+    radius * 2,
+    radius * 2
+  );
+}
+
+function rightwallhitbox() {
+  rightwallhit = collideRectRect(
     width * 0.45,
-    rectY - 200,
-    50,
+    rectY - 199,
+    1,
     200,
     playerX,
     playerY,
@@ -131,9 +139,9 @@ function topOfWallhitbox() {
     50,
     1,
     playerX,
-    playerY,
+    playerY + radius * 2,
     radius * 2,
-    radius * 2
+    1
   );
 }
 
@@ -147,20 +155,22 @@ function handleKeys() {
   if (keyIsDown(83)) {
     //s
     if (floorhit === false) {
-      playerY += speed;
+      if (topOfWallhit === false) {
+        playerY += speed;
+      }
     }
   }
   if (keyIsDown(65)) {
     //a
     if (playerX > 0) {
-      if (wallhit === false) {
+      if (leftwallhit === false) {
         playerX -= speed;
       }
     }
   }
   if (keyIsDown(68)) {
     //d
-    if (rightWallHit === false) {
+    if (rightwallhit === false) {
       playerX += speed;
     }
   }
