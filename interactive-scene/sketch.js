@@ -16,7 +16,7 @@ let rectH;
 let radius = 25;
 let speed = 5;
 let spacebardown = false;
-let rightWallHit = false;
+let rightWallHit;
 let leftWallHit = false;
 let topWallHit = false;
 let grav = 0.1;
@@ -80,6 +80,9 @@ function findTheWall() {
     if (keyIsDown(68)) {
       rightWallHit === true; 
     }
+  }
+  else if (wallhit === false) {
+    rightWallHit = false;
   }
 }
 
