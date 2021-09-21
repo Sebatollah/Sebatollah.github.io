@@ -20,13 +20,14 @@ let topWallHit = false;
 let grav = 0.1;
 let dy = 1;
 let touchwall = false;
+let airtime;
 
 function preload() {
   player = loadImage("assets/Old hero1.png");
 }
 
 function setup() {
-  createCanvas(screenheight, screenwidth, 156, 140, 132);
+  createCanvas(screenheight, screenwidth);
   rectY = height * 0.9;
   rectH = height * 0.1;
 }
@@ -37,7 +38,7 @@ let topOfWallhit = false;
 let rightwallhit = false;
 
 function draw() {
-  background(220);
+  background(156, 140, 132);
   drawFloor();
   //
   drawWall();
@@ -56,11 +57,13 @@ function draw() {
   //
   gravity();
   //
+
+  console.log (dy);
 }
 
 function gravity() {
   if (playerY >= rectY - radius * 2) {
-    rectY - radius * 2;
+    playerY = rectY - radius * 2 - 0.1;
     dy = 0;
   }
   else {
@@ -70,10 +73,14 @@ function gravity() {
 }
 
 function drawFloor() {
+  noStroke();
+  fill(225);
   rect(0, rectY, width, height * 0.1);
 }
 
 function drawWall() {
+  noStroke();
+  fill(225);
   rect(width * 0.45, rectY - 200, 50, 200);
 }
 
@@ -163,12 +170,14 @@ function handleKeys() {
     }
   }
 
-  function keyPressed() {
-    if (keyCode === 32) {
-      //spacebar
-      dy = -5;
-    }
-  }
 
   //print("colliding?", wallhit);
+}
+
+function keyPressed() {
+  if (key === " ") {
+    //spacebar
+    dy = -5;
+    airtime = true;
+  }
 }
