@@ -26,7 +26,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(screenheight, screenwidth);
+  createCanvas(screenheight, screenwidth, 156, 140, 132);
   rectY = height * 0.9;
   rectH = height * 0.1;
 }
@@ -55,6 +55,7 @@ function draw() {
   rightwallhitbox();
   //
   gravity();
+  //
 }
 
 function gravity() {
@@ -161,10 +162,12 @@ function handleKeys() {
       playerX += speed;
     }
   }
-  if (keyPressed()) {
-    if (keyCode === 32)
-    //spacebar
-    dy = -5;
+
+  function keyPressed() {
+    if (keyCode === 32) {
+      //spacebar
+      dy = -5;
+    }
   }
 
   //print("colliding?", wallhit);
