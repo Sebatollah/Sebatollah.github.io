@@ -34,16 +34,25 @@ function spawnBall() {
     ballcolor: color(random(255), random(255), random(255), random(255)),
     dx: random (5, 10),
     dy: random (5, 10),
+    xTime: random(1000),
+    yTime: random(1000),
+    timeChange: random(0.001, 0.01),
   };
   ballArray.push(newBall);
 }
 
 function moveBall() {
   for (let theBall of ballArray) {
-    theBall.x += theBall.dx;
-    theBall.y += theBall.dy;
-    theBall.dx = random(-5, 5);
-    theBall.dy = random(-5, 5);
+    // theBall.x += theBall.dx;
+    // theBall.y += theBall.dy;
+    // theBall.dx = random(-5, 5);
+    // theBall.dy = random(-5, 5);
+
+    theBall.x = noise(theBall.xTime) * width;
+    theBall.y = noise(theBall.yTime) * height;
+
+    theBall.xTime += theBall.timeChange;
+    theBall.yTime += theBall.timeChange;
   }
 
 }
