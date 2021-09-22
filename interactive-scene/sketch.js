@@ -15,12 +15,10 @@ let rectY;
 let rectH;
 let radius = 25;
 let speed = 5;
-let spacebardown = false;
-let topWallHit = false;
 let grav = 0.1;
 let dy = 1;
-let touchwall = false;
-let airtime;
+let airtime = false;
+let flooring;
 
 function preload() {
   player = loadImage("assets/Old hero1.png");
@@ -30,6 +28,7 @@ function setup() {
   createCanvas(screenheight, screenwidth);
   rectY = height * 0.9;
   rectH = height * 0.1;
+  flooring = rectY;
 }
 
 let floorhit = false;
@@ -42,7 +41,7 @@ function draw() {
   drawFloor();
   //
   drawWall();
-  // //
+  //
   handleKeys(); //player movement
   //
   drawPlayer();
@@ -57,14 +56,25 @@ function draw() {
   //
   gravity();
   //
+  drawMetal();
+}
 
-  console.log (dy);
+function drawMetal() {
+  fill(255);
+  rect(width * 0.45 - 50, rectY, 50, 10);
 }
 
 function gravity() {
-  if (playerY >= rectY - radius * 2) {
-    playerY = rectY - radius * 2 - 0.1;
+  if (playerX + radius*2 < width* 0.45 || playerX > width* 0.45 + 50) {
+    flooring = rectY;
+  }
+  if (playerX + radius*2 > width* 0.45 && playerX + radius*2 < width* 0.45 + 50 || playerX > width* 0.45 && playerX < width* 0.45 + 50) {
+    flooring = rectY - 200;
+  }
+  if (playerY >= flooring - radius * 2) {
+    playerY = flooring - radius * 2 - 0.1;
     dy = 0;
+    airtime = false;
   }
   else {
     playerY += dy;
@@ -74,13 +84,13 @@ function gravity() {
 
 function drawFloor() {
   noStroke();
-  fill(225);
+  fill(200);
   rect(0, rectY, width, height * 0.1);
 }
 
 function drawWall() {
   noStroke();
-  fill(225);
+  fill(200);
   rect(width * 0.45, rectY - 200, 50, 200);
 }
 
@@ -175,9 +185,11 @@ function handleKeys() {
 }
 
 function keyPressed() {
-  if (key === " ") {
-    //spacebar
-    dy = -5;
-    airtime = true;
+  if (airtime === false) {
+    if (key === " ") {
+      //spacebar
+      dy = -5;
+      airtime = true;
+    }
   }
 }
