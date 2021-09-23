@@ -1,14 +1,15 @@
 // interactive scene
 // Sebastion Thauberger
 // Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+
+
+// atan2
+//dist
 
 let player;
 let metal;
-let screenwidth = 400;
-let screenheight = 400;
+//let screenwidth = 400;
+//let screenheight = 400;
 let playerX = 20;
 let playerY = 200;
 let rectY;
@@ -19,13 +20,14 @@ let grav = 0.1;
 let dy = 1;
 let airtime = false;
 let flooring;
+let pushingLine;
 
 function preload() {
-  player = loadImage("assets/Old hero1.png");
+  player = loadImage("assets/Old hero1.png"); //load player image
 }
 
 function setup() {
-  createCanvas(screenheight, screenwidth);
+  createCanvas(windowWidth, windowHeight);
   rectY = height * 0.9;
   rectH = height * 0.1;
   flooring = rectY;
@@ -57,6 +59,18 @@ function draw() {
   gravity();
   //
   drawMetal();
+  //
+  createPushingLine();
+  //
+  console.log(pushingLine);
+  console.log(playerX);
+}
+function createPushingLine() {
+  translate(width * 0.45 -25, height * 0.9 + 5);
+  pushingLine = atan2(playerY + radius - height * 0.9 + 5, playerX + radius - width * 0.45 -25);
+  rotate(pushingLine);
+  fill("blue");
+  rect(-10, -5, 60, 10);
 }
 
 function drawMetal() {
@@ -64,14 +78,14 @@ function drawMetal() {
   rect(width * 0.45 - 50, rectY, 50, 10);
 }
 
-function gravity() {
+function gravity() { //checks whether the player is above the wall or not and if the player is it sets that to be the floor it
   if (playerX + radius*2 < width* 0.45 || playerX > width* 0.45 + 50) {
     flooring = rectY;
   }
   if (playerX + radius*2 > width* 0.45 && playerX + radius*2 < width* 0.45 + 50 || playerX > width* 0.45 && playerX < width* 0.45 + 50) {
     flooring = rectY - 200;
   }
-  if (playerY >= flooring - radius * 2) {
+  if (playerY >= flooring - radius * 2) { //increases the velocity with the gravity (grav) until the player hits the floor
     playerY = flooring - radius * 2 - 0.1;
     dy = 0;
     airtime = false;
@@ -98,7 +112,7 @@ function drawPlayer() {
   image(player, playerX, playerY, radius * 2, radius * 2);
 }
 
-function floorhitbox() {
+function floorhitbox() { //whenever the player touches the hitbox it activates anything to do with the hitbox
   floorhit = collideRectRect(
     0,
     rectY,
@@ -150,7 +164,7 @@ function topOfWallhitbox() {
   );
 }
 
-function handleKeys() {
+function handleKeys() { //allows movement
   if (keyIsDown(87)) {
     //w
     if (playerY > 0) {
@@ -175,17 +189,16 @@ function handleKeys() {
   }
   if (keyIsDown(68)) {
     //d
-    if (rightwallhit === false) {
-      playerX += speed;
+    if (playerX + radius*2 < width) {
+      if (rightwallhit === false) {
+        playerX += speed;
+      }
     }
   }
-
-
-  //print("colliding?", wallhit);
 }
 
-function keyPressed() {
-  if (airtime === false) {
+function keyPressed() { // checks if the player is on the ground and if he is then when the space bar is pressed jump
+  if (airtime === false && dy <= 1) {
     if (key === " ") {
       //spacebar
       dy = -5;
