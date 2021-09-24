@@ -10,8 +10,8 @@ let player;
 let metal;
 //let screenwidth = 400;
 //let screenheight = 400;
-let playerX = 20;
-let playerY = 200;
+let playerX = 700;
+let playerY = 600;
 let rectY;
 let rectH;
 let radius = 25;
@@ -62,15 +62,13 @@ function draw() {
   //
   createPushingLine();
   //
-  console.log(pushingLine);
-  console.log(playerX);
 }
 function createPushingLine() {
   translate(width * 0.45 -25, height * 0.9 + 5);
-  pushingLine = atan2(playerY + radius - height * 0.9 + 5, playerX + radius - width * 0.45 -25);
+  pushingLine = atan2(playerY + radius - height * 0.9 - 5, playerX + radius - width * 0.45 + 25);
   rotate(pushingLine);
-  fill("blue");
-  rect(-10, -5, 60, 10);
+  fill(0,180,220, 100);
+  rect(0, 0, width * 0.45 -25 - playerX - radius, 10);
 }
 
 function drawMetal() {
