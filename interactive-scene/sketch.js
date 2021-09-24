@@ -21,6 +21,7 @@ let dy = 1;
 let airtime = false;
 let flooring;
 let pushingLine;
+let startGame = false;
 
 function preload() {
   player = loadImage("assets/Old hero1.png"); //load player image
@@ -40,6 +41,8 @@ let rightwallhit = false;
 
 function draw() {
   background(156, 140, 132);
+  makeStartingScreen();
+  //
   drawFloor();
   //
   drawWall();
@@ -92,6 +95,11 @@ function gravity() { //checks whether the player is above the wall or not and if
     playerY += dy;
     dy += grav;   
   }
+}
+
+function makeStartingScreen() {
+  background("grey");
+  
 }
 
 function drawFloor() {
