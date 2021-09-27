@@ -8,8 +8,6 @@
 
 let player;
 let metal;
-//let screenwidth = 400;
-//let screenheight = 400;
 let playerX = 700;
 let playerY = 600;
 let rectY;
@@ -67,16 +65,20 @@ function draw() {
   //
 }
 function createPushingLine() {
-  translate(width * 0.45 -25, height * 0.9 + 5);
-  pushingLine = atan2(playerY + radius - height * 0.9 - 5, playerX + radius - width * 0.45 + 25);
-  rotate(pushingLine);
-  fill(0,180,220, 100);
-  rect(0, 0, width * 0.45 -25 - playerX - radius, 10);
+  if (startGame === true) {
+    translate(width * 0.45 -25, height * 0.9 + 5);
+    pushingLine = atan2(playerY + radius - height * 0.9 - 5, playerX + radius - width * 0.45 + 25);
+    rotate(pushingLine);
+    fill(0,180,220, 100);
+    rect(0, 0, width * 0.45 -25 - playerX - radius, 10);
+  }
 }
 
 function drawMetal() {
-  fill(255);
-  rect(width * 0.45 - 50, rectY, 50, 10);
+  if (startGame === true) {
+    fill(255);
+    rect(width * 0.45 - 50, rectY, 50, 10);
+  }
 }
 
 function gravity() { //checks whether the player is above the wall or not and if the player is it sets that to be the floor it
@@ -99,23 +101,30 @@ function gravity() { //checks whether the player is above the wall or not and if
 
 function makeStartingScreen() {
   background("grey");
-  
+  fill("blue");
+  rect(width/2 - 250, height/2 - 10, 500, 130);
 }
 
 function drawFloor() {
-  noStroke();
-  fill(200);
-  rect(0, rectY, width, height * 0.1);
+  if (startGame === true) {
+    noStroke();
+    fill(200);
+    rect(0, rectY, width, height * 0.1);
+  }
 }
 
 function drawWall() {
-  noStroke();
-  fill(200);
-  rect(width * 0.45, rectY - 200, 50, 200);
+  if (startGame === true) {
+    noStroke();
+    fill(200);
+    rect(width * 0.45, rectY - 200, 50, 200);
+  }
 }
 
 function drawPlayer() {
-  image(player, playerX, playerY, radius * 2, radius * 2);
+  if (startGame === true) {
+    image(player, playerX, playerY, radius * 2, radius * 2);
+  }
 }
 
 function floorhitbox() { //whenever the player touches the hitbox it activates anything to do with the hitbox
