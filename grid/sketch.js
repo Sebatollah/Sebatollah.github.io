@@ -58,7 +58,6 @@ function createRandomGrid(howLarge) {
       else {
         emptyArray[y].push(1);
       }
-      emptyArray[y].push(0);
     }
   }
   return emptyArray;
