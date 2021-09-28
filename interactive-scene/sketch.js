@@ -2,9 +2,7 @@
 // Sebastion Thauberger
 // Date
 
-
-// atan2
-//dist
+//controls are space for jump wasd for movement and boost in air if you hit w and space bar at the same time
 
 let player;
 let metal;
@@ -70,7 +68,7 @@ function createPushingLine() {
     pushingLine = atan2(playerY + radius - height * 0.9 - 5, playerX + radius - width * 0.45 + 25);
     rotate(pushingLine);
     fill(0,180,220, 100);
-    rect(0, 0, width * 0.45 -25 - playerX - radius, 10);
+    rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
   }
 }
 
@@ -85,7 +83,7 @@ function gravity() { //checks whether the player is above the wall or not and if
   if (playerX + radius*2 < width* 0.45 || playerX > width* 0.45 + 50) {
     flooring = rectY;
   }
-  if (playerX + radius*2 > width* 0.45 && playerX + radius*2 < width* 0.45 + 50 || playerX > width* 0.45 && playerX < width* 0.45 + 50) {
+  if (playerX + radius*2 - 1 > width* 0.45 && playerX + radius*2 < width* 0.45 + 50 || playerX > width* 0.45 && playerX < width* 0.45 + 50) {
     flooring = rectY - 200;
   }
   if (playerY >= flooring - radius * 2) { //increases the velocity with the gravity (grav) until the player hits the floor
@@ -100,9 +98,27 @@ function gravity() { //checks whether the player is above the wall or not and if
 }
 
 function makeStartingScreen() {
-  background("grey");
-  fill("blue");
-  rect(width/2 - 250, height/2 - 10, 500, 130);
+  if (startGame === false) {
+    background("grey");
+    fill("darkgrey");
+    rect(width/2 - 250, height/2 - 10, 500, 130);
+    textSize(80);
+    fill("blue");
+    text("SEBASTIAN'S PROJECT GAME", width/2 - 600, height*0.3, 1250, 1000);
+    textSize(40);
+    fill("black");
+    text("CLICK TO START", width/2 - 150, height/2 + 30, 500, 130);
+  }
+}
+
+function mouseClicked() {
+  if (startGame === false) {
+    if (mouseX >= width/2 - 250 && mouseX <= width/2 - 250 + 500) {
+      if (mouseY >= height/2 - 10 && mouseY <= height/2 - 10 + 130) {
+        startGame = true;
+      }
+    }
+  }
 }
 
 function drawFloor() {
@@ -181,13 +197,14 @@ function topOfWallhitbox() {
 
 function handleKeys() { //allows movement
   if (keyIsDown(87)) {
-    //w
+  //w
     if (playerY > 0) {
       playerY -= speed;
     }
   }
+
   if (keyIsDown(83)) {
-    //s
+  //s
     if (floorhit === false) {
       if (topOfWallhit === false) {
         playerY += speed;
