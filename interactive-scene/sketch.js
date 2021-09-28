@@ -67,8 +67,10 @@ function createPushingLine() {
     translate(width * 0.45 -25, height * 0.9 + 5);
     pushingLine = atan2(playerY + radius - height * 0.9 - 5, playerX + radius - width * 0.45 + 25);
     rotate(pushingLine);
-    fill(0,180,220, 100);
-    rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
+    //fill(0,180,220, 100);
+    //rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
+    stroke ("black");
+    line(100, 100, playerY, playerX);
   }
 }
 
