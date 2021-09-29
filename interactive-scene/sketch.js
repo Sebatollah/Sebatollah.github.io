@@ -17,7 +17,7 @@ let dy = 1;
 let airtime = false;
 let flooring;
 let pushingLine;
-let startGame = false;
+let startGame = true;
 
 function preload() {
   player = loadImage("assets/Old hero1.png"); //load player image
@@ -70,7 +70,9 @@ function createPushingLine() {
     //fill(0,180,220, 100);
     //rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
     stroke ("blue");
-    line(playerX - width * 0.45 - 50 + 25, playerY - rectY + 5, 0, 0);
+    line(playerX - width * 0.45 - 25, playerY - rectY + 5, 0, 0);
+    console.log(playerX);
+    console.log(playerX - width * 0.45 - 25);
   }
 }
 
