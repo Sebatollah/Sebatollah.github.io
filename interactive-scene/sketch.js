@@ -64,15 +64,16 @@ function draw() {
 }
 function createPushingLine() {
   if (startGame === true) {
-    translate(width * 0.45 - 50 + 25, rectY + 5);
+    translate(width * 0.45 - 25, rectY + 5);
     pushingLine = atan2(playerY, playerX);
     rotate(pushingLine);
     //fill(0,180,220, 100);
     //rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
     stroke ("blue");
-    line(playerX - width * 0.45 - 25, playerY - rectY + 5, 0, 0);
+    line(0, 0, playerX - width * 0.45 - 25, playerY - rectY + 5);
     console.log(playerX);
-    console.log(playerX - width * 0.45 - 25);
+    console.log(width);
+    console.log(width * 0.45 - 25);
   }
 }
 
