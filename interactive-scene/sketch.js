@@ -19,6 +19,8 @@ let flooring;
 let pushingLine;
 let startGame = false;
 let levelEditor = false;
+let gridSize = 30;
+let grid;
 
 function preload() {
   player = loadImage("assets/Old hero1.png"); //load player image
@@ -29,6 +31,7 @@ function setup() {
   rectY = height * 0.9;
   rectH = height * 0.1;
   flooring = rectY;
+  grid = createGrid(gridSize);
 }
 
 let floorhit = false;
