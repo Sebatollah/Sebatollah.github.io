@@ -17,7 +17,8 @@ let dy = 1;
 let airtime = false;
 let flooring;
 let pushingLine;
-let startGame = true;
+let startGame = false;
+let levelEditor = false;
 
 function preload() {
   player = loadImage("assets/Old hero1.png"); //load player image
@@ -104,23 +105,42 @@ function gravity() { //checks whether the player is above the wall or not and if
 
 function makeStartingScreen() {
   if (startGame === false) {
-    background("grey");
-    fill("darkgrey");
-    rect(width/2 - 250, height/2 - 10, 500, 130);
-    textSize(80);
-    fill("blue");
-    text("SEBASTIAN'S PROJECT GAME", width/2 - 600, height*0.3, 1250, 1000);
-    textSize(40);
-    fill("black");
-    text("CLICK TO START", width/2 - 150, height/2 + 30, 500, 130);
+    if (levelEditor === false) {
+      background("grey");
+
+      fill("darkgrey");
+      rect(width/2 - 250, height/2 - 10, 500, 130);//start button
+  
+      textSize(80);
+      fill("blue");
+      text("SEBASTIAN'S PROJECT GAME", width/2 - 600, height*0.3, 1250, 1000);//title
+      
+      textSize(40);
+      fill("black");
+      text("CLICK TO START", width/2 - 150, height/2 + 30, 500, 130);//start button
+  
+      fill("darkgrey");
+      rect(width/2 - 250, height*0.75 - 10, 500, 130);// level maker button
+  
+      textSize(40);
+      fill("black");
+      text("LEVEL EDITOR", width/2 - 150, height*0.75 + 30, 500, 130);
+    }
   }
 }
 
 function mouseClicked() {
   if (startGame === false) {
-    if (mouseX >= width/2 - 250 && mouseX <= width/2 - 250 + 500) {
-      if (mouseY >= height/2 - 10 && mouseY <= height/2 - 10 + 130) {
+    if (mouseX >= width/2 - 250 && mouseX <= width/2 + 250) {
+      if (mouseY >= height/2 - 10 && mouseY <= height/2 +120) {
         startGame = true;
+      }
+    }
+  }
+  if (levelEditor === false) {
+    if (mouseX >= width/2 - 250 && mouseX <= width/2 + 250) {
+      if (mouseY >= height*0.75 - 10 && mouseY <= height*0.75 + 120) {
+        levelEditor = true;
       }
     }
   }
