@@ -6,8 +6,8 @@
 
 let player;
 let metal;
-let playerX = 700;
-let playerY = 600;
+let playerX = 0;
+let playerY = 0;
 let rectY;
 let rectH;
 let radius = 25;
@@ -70,7 +70,7 @@ function createPushingLine() {
     //fill(0,180,220, 100);
     //rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
     stroke ("blue");
-    line(0, 0, playerX - width * 0.45 - 25, playerY - rectY + 5);
+    line(0, 0, playerX + radius - width * 0.45 - 25, playerY + radius - rectY + 5);
     console.log(playerX);
     console.log(width);
     console.log(width * 0.45 - 25);
