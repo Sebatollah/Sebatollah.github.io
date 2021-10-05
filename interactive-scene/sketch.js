@@ -17,10 +17,9 @@ let dy = 1;
 let airtime = false;
 let flooring;
 let pushingLine;
-let startGame = false;
+let startGame = true;
 let levelEditor = false;
-let gridSize = 30;
-let grid;
+let d;
 
 function preload() {
   player = loadImage("assets/Old hero1.png"); //load player image
@@ -31,7 +30,6 @@ function setup() {
   rectY = height * 0.9;
   rectH = height * 0.1;
   flooring = rectY;
-  grid = createGrid(gridSize);
 }
 
 let floorhit = false;
@@ -40,8 +38,10 @@ let topOfWallhit = false;
 let rightwallhit = false;
 
 function draw() {
-  background(156, 140, 132);
+  background(156, 140, 132);//156, 140, 132
   makeStartingScreen();
+  //
+  d = dist(width * 0.45 - 25, rectY + 5, playerX + radius, playerY + radius);
   //
   drawFloor();
   //
@@ -69,15 +69,14 @@ function draw() {
 function createPushingLine() {
   if (startGame === true) {
     translate(width * 0.45 - 25, rectY + 5);
-    pushingLine = atan2(playerY, playerX);
+    pushingLine = atan2(playerY-(rectY + 5) + radius, playerX-(width * 0.45 - 25) + radius);
     rotate(pushingLine);
     //fill(0,180,220, 100);
     //rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
     stroke ("blue");
-    line(0, 0, playerX + radius - width * 0.45 - 25, playerY + radius - rectY + 5);
-    console.log(playerX);
-    console.log(width);
-    console.log(width * 0.45 - 25);
+    line(0, 0, d, 0);
+    console.log(d);
+    // console.log(0, 0, -playerX, -playerY);
   }
 }
 

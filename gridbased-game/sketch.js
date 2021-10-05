@@ -22,6 +22,8 @@ function draw() {
 
   console.log(mouseX);
   console.log(mouseY);
+
+  rect(10,windowHeight*0.9,40,40);
 }
 
 function displayGrid () {
