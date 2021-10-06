@@ -1,48 +1,54 @@
 // Project Title
 
-let rows = 30;
-let cols = 14;
+let rows = 20;
+let cols = 13;
 let grid;
 let cellwidth;
 let cellHeight;
+let xBuffer;
+let yBuffer;
+let active;
 
 
 function setup() {
-  createCanvas(windowWidth*0.8, windowHeight*0.8);
+  createCanvas(windowWidth, windowHeight);
 
   grid = createGrid(cols, rows);
-  cellwidth = width / rows;
-  cellHeight = height/ cols;
+  cellwidth = 0.8*width / rows;
+  cellHeight = 0.8*height / cols;
+  xBuffer = windowWidth*0.1;
+  yBuffer = windowHeight*0.1;
 }
 
 function draw() {
   background("white");
 
+  angleMode(DEGREES);
+
   displayGrid();
 
-  console.log(mouseX);
-  console.log(mouseY);
+  eraserIcon();
 
-  rect(10,windowHeight*0.9,40,40);
+  console.log(mouseX, mouseY);
 }
 
 function displayGrid () {
   for (let y=0; y<cols; y++) {
     for (let x=0; x<rows; x++) {
       if (grid[y][x] === 0) {
-        fill("white");
+        fill(156, 140, 132);
       }
       else if (grid[y][x] === 1) {
-        fill("black");
+        fill(200);
       }
-      rect(x*cellwidth, y*cellHeight, cellwidth, cellHeight);
+      rect(x*cellwidth + xBuffer, y*cellHeight + yBuffer, cellwidth, cellHeight);
     }
   }
 }
 
 function mousePressed() {
-  let cellX = Math.floor(mouseX/cellwidth);
-  let cellY = Math.floor(mouseY/cellHeight);
+  let cellX = Math.floor((mouseX-xBuffer)/cellwidth);
+  let cellY = Math.floor((mouseY-yBuffer)/cellHeight);
 
   swap(cellX, cellY);
 }
@@ -67,4 +73,16 @@ function createGrid(howLarge) {
     }
   }
   return emptyArray;
+}
+
+function eraserIcon() {
+  fill(active);
+  stroke("black");
+  translate(40,45);
+  rotate(15);
+  rect(40,45,40,10);
+
+  translate(17,27);
+  rotate(0.3);
+  rect(17,27,50,70);
 }
