@@ -7,7 +7,8 @@ let cellwidth;
 let cellHeight;
 let xBuffer;
 let yBuffer;
-let active;
+let activeE = "white";
+let activeB = "white";
 
 
 function setup() {
@@ -26,6 +27,8 @@ function draw() {
   angleMode(DEGREES);
 
   displayGrid();
+
+  blockIcon();
 
   eraserIcon();
 
@@ -50,10 +53,24 @@ function mousePressed() {
   let cellX = Math.floor((mouseX-xBuffer)/cellwidth);
   let cellY = Math.floor((mouseY-yBuffer)/cellHeight);
 
-  swap(cellX, cellY);
+  swapB(cellX, cellY);
+
+  if (mouseX >= 30 && mouseX <= 120) {
+    if (mouseY >= 90 && mouseY <= 190) {
+      activeE = "lightblue";
+      activeB = "white";
+    }
+  }
+
+  if (mouseX >= 30 && mouseX <= 120) {
+    if (mouseY >= 230 && mouseY <= 330) {
+      activeB = "lightblue";
+      activeE = "white";
+    }
+  }
 }
 
-function swap(x, y) {
+function swapB(x, y) {
   if (x >= 0 && x < rows && y >= 0 && y < cols) {
     if (grid[y][x] === 0) {
       grid[y][x] = 1;
@@ -75,8 +92,22 @@ function createGrid(howLarge) {
   return emptyArray;
 }
 
+function blockIcon() {
+  fill(activeB);
+  stroke("white");
+  rect(30,230,90,100);
+
+  fill("white");
+  stroke("black");
+  rect(45,250,60,60);
+}
+
 function eraserIcon() {
-  fill(active);
+  fill(activeE);
+  stroke("white");
+  rect(30, 90, 90, 100);
+
+  fill("white");
   stroke("black");
   translate(40,45);
   rotate(15);
