@@ -1,7 +1,7 @@
 // Project Title
 
-let rows = 20;
-let cols = 13;
+let rows = 20.9;
+let cols = 15.78;
 let grid;
 let cellwidth;
 let cellHeight;
@@ -15,10 +15,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   grid = createGrid(cols, rows);
-  cellwidth = 0.8*width / rows;
-  cellHeight = 0.8*height / cols;
-  xBuffer = windowWidth*0.1;
-  yBuffer = windowHeight*0.1;
+  cellwidth = 0.65*width / rows;
+  cellHeight = 0.65*height / cols;
+  xBuffer = windowWidth*0.15;
+  yBuffer = windowHeight*0.15;
 }
 
 function draw() {
