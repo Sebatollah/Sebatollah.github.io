@@ -31,8 +31,6 @@ function draw() {
   blockIcon();
 
   eraserIcon();
-
-  console.log(mouseX, mouseY);
 }
 
 function displayGrid () {
