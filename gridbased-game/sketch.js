@@ -2,6 +2,7 @@
 
 let rows = 20.9;
 let cols = 15.78;
+let colsloc = 21;
 let grid;
 let cellwidth;
 let cellHeight;
@@ -14,7 +15,7 @@ let activeB = "white";
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  grid = createGrid(cols, rows);
+  grid = createGrid(colsloc, rows);
   cellwidth = 0.65*width / rows;
   cellHeight = 0.65*height / cols;
   xBuffer = windowWidth*0.15;
@@ -31,11 +32,15 @@ function draw() {
   blockIcon();
 
   eraserIcon();
+
 }
 
 function displayGrid () {
   for (let y=0; y<cols; y++) {
     for (let x=0; x<rows; x++) {
+      if (grid[y] === 0) {
+        grid[y][x] = 1;
+      }
       if (grid[y][x] === 0) {
         fill(156, 140, 132);
       }
@@ -51,7 +56,13 @@ function mousePressed() {
   let cellX = Math.floor((mouseX-xBuffer)/cellwidth);
   let cellY = Math.floor((mouseY-yBuffer)/cellHeight);
 
-  swapB(cellX, cellY);
+  if (activeE === "lightblue") {
+    swapE(cellX, cellY);
+  }
+  if (activeB === "lightblue") {
+    swapB(cellX, cellY);
+  }
+
 
   if (mouseX >= 30 && mouseX <= 120) {
     if (mouseY >= 90 && mouseY <= 190) {
@@ -69,11 +80,16 @@ function mousePressed() {
 }
 
 function swapB(x, y) {
-  if (x >= 0 && x < rows && y >= 0 && y < cols) {
+  if (x >= 1 && x < rows - 1 && y >= 1 && y < colsloc - 1) {
     if (grid[y][x] === 0) {
       grid[y][x] = 1;
     }
-    else if (grid[y][x] === 1) {
+  }
+}
+
+function swapE(x,y) {
+  if (x >= 1 && x < rows - 1 && y >= 1 && y < colsloc - 1) {
+    if (grid[y][x] === 1) {
       grid[y][x] = 0;
     }
   }
