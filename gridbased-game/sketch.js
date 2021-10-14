@@ -11,6 +11,7 @@ let yBuffer;
 let activeE = "white";
 let activeB = "white";
 let gridY = false;
+let gridX = false;
 
 
 function setup() {
@@ -38,10 +39,7 @@ function draw() {
 
 function displayGrid () {
   for (let y=0; y<cols; y++) {
-    if (y === 0) {
-      gridY = true;
-    }
-    else if (y === cols) {
+    if (y === 0 || y === cols + 1) {
       gridY = true;
     }
     else {
@@ -51,6 +49,17 @@ function displayGrid () {
       if (gridY === true) {
         grid[y][x] = 1;
       }
+
+      if (x === 0) {
+        gridX = true;
+      }
+      else {
+        gridX = false;
+      }
+      if (gridX === true) {
+        grid[y][x] = 1;
+      }
+
       if (grid[y][x] === 0) {
         fill(156, 140, 132);
       }
