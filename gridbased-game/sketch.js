@@ -1,7 +1,7 @@
 // Project Title
 
-let rows = 20.9;
-let cols = 15.78;
+let rows = 21;
+let cols = 16;
 let colsloc = 21;
 let grid;
 let cellwidth;
@@ -12,12 +12,23 @@ let activeE = "white";
 let activeB = "white";
 let gridY = false;
 let gridX = false;
+let wallBlock = 1;
+let metalblock = 2;
+let spawnPoint = 3;
+let endPoint = 4;
+let endIcon;
+let startIcon;
+let currentBlock;
 
+function preload() {
+  endIcon = loadImage("assets/end-pos-icon.png");
+  startIcon = loadImage("assets/Old hero1.png");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  grid = createGrid(colsloc, rows);
+  grid = createGrid(colsloc, rows); //making the grid and putting it in the center of the screen
   cellwidth = 0.65*width / rows;
   cellHeight = 0.65*height / cols;
   xBuffer = windowWidth*0.15;
@@ -33,31 +44,37 @@ function draw() {
 
   blockIcon();
 
-  eraserIcon();
+  blockBar();
 
+  console.log(mouseX, mouseY);
+
+  console.log(currentBlock);
+
+  eraserIcon();
 }
 
 function displayGrid () {
-  for (let y=0; y<cols; y++) {
-    if (y === 0 || y === cols + 1) {
+  for (let y=0; y < cols; y++) {
+
+    if (y === 0 || y === 15) { //putting a border on both y edges
       gridY = true;
     }
     else {
       gridY = false;
     }
-    for (let x=0; x<rows; x++) {
+    for (let x=0; x < rows; x++) {
       if (gridY === true) {
-        grid[y][x] = 1;
+        grid[y][x] = wallBlock;
       }
 
-      if (x === 0) {
+      if (x === 0 || x === 20) { //putting a border on both x edges
         gridX = true;
       }
       else {
         gridX = false;
       }
       if (gridX === true) {
-        grid[y][x] = 1;
+        grid[y][x] = wallBlock;
       }
 
       if (grid[y][x] === 0) {
@@ -71,14 +88,14 @@ function displayGrid () {
   }
 }
 
-function mousePressed() {
+function mouseDragged() {
   let cellX = Math.floor((mouseX-xBuffer)/cellwidth);
   let cellY = Math.floor((mouseY-yBuffer)/cellHeight);
 
-  if (activeE === "lightblue") {
+  if (activeE === "lightblue") { //making an eraser
     swapE(cellX, cellY);
   }
-  if (activeB === "lightblue") {
+  if (activeB === "lightblue") { //making a block placer
     swapB(cellX, cellY);
   }
 
@@ -96,10 +113,85 @@ function mousePressed() {
       activeE = "white";
     }
   }
+
+  if (mouseX >= 250 && mouseX <= 290) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = wallBlock;
+    }
+  }
+
+  if (mouseX >= 330 && mouseX <= 370) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = metalblock;
+    }
+  }
+
+  if (mouseX >= 410 && mouseX <= 450) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = spawnPoint;
+    }
+  }
+
+  if (mouseX >= 490 && mouseX <= 530) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = endPoint;
+    }
+  }
+}
+
+function mousePressed() {
+  let cellX = Math.floor((mouseX-xBuffer)/cellwidth);
+  let cellY = Math.floor((mouseY-yBuffer)/cellHeight);
+
+  if (activeE === "lightblue") { //making an eraser
+    swapE(cellX, cellY);
+  }
+  if (activeB === "lightblue") { //making a block placer
+    swapB(cellX, cellY);
+  }
+
+
+  if (mouseX >= 30 && mouseX <= 120) {
+    if (mouseY >= 90 && mouseY <= 190) {
+      activeE = "lightblue";
+      activeB = "white";
+    }
+  }
+
+  if (mouseX >= 30 && mouseX <= 120) {
+    if (mouseY >= 230 && mouseY <= 330) {
+      activeB = "lightblue";
+      activeE = "white";
+    }
+  }
+
+  if (mouseX >= 250 && mouseX <= 290) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = wallBlock;
+    }
+  }
+
+  if (mouseX >= 330 && mouseX <= 370) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = metalblock;
+    }
+  }
+
+  if (mouseX >= 410 && mouseX <= 450) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = spawnPoint;
+    }
+  }
+
+  if (mouseX >= 490 && mouseX <= 530) {
+    if (mouseY >= 715 && mouseY <= 755) {
+      currentBlock = endPoint;
+    }
+  }
 }
 
 function swapB(x, y) {
-  if (x >= 1 && x < rows - 1 && y >= 1 && y < colsloc - 1) {
+  if (x >= 1 && x < rows - 1 && y >= 1 && y < cols - 1) {
     if (grid[y][x] === 0) {
       grid[y][x] = 1;
     }
@@ -107,7 +199,8 @@ function swapB(x, y) {
 }
 
 function swapE(x,y) {
-  if (x >= 1 && x < rows - 1 && y >= 1 && y < colsloc - 1) {
+  if (x >= 1 && x < rows - 1 && y >= 1 && y < cols
+     - 1) {
     if (grid[y][x] === 1) {
       grid[y][x] = 0;
     }
@@ -133,6 +226,26 @@ function blockIcon() {
   fill("white");
   stroke("black");
   rect(45,250,60,60);
+}
+
+function blockBar() {
+  fill("black");
+  stroke("black");
+  rect(0,670, width, 118);
+  textSize(20);
+  text("Blocks", width/2 - 50, 640, 40, 30);
+  blocks();
+}
+
+function blocks() {
+  fill(200);
+  rect(250, 715, 40, 40); //wall block
+  
+  fill(255);
+  rect(330, 715, 40, 40); //metal block
+  
+  image(startIcon, 410, 715, 40, 40); //start position
+  image(endIcon, 490, 715, 40, 40);//end position
 }
 
 function eraserIcon() {
