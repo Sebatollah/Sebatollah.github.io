@@ -10,6 +10,7 @@ let xBuffer;
 let yBuffer;
 let activeE = "white";
 let activeB = "white";
+let activeBlock;
 let gridY = false;
 let gridX = false;
 let wallBlock = 1;
@@ -18,7 +19,9 @@ let spawnPoint = 3;
 let endPoint = 4;
 let endIcon;
 let startIcon;
-let currentBlock;
+let currentBlock = 1;
+let numOfSpawnpoints = 0;
+let numOfEndpoints = 0;
 
 function preload() {
   endIcon = loadImage("assets/end-pos-icon.png");
@@ -33,6 +36,7 @@ function setup() {
   cellHeight = 0.65*height / cols;
   xBuffer = windowWidth*0.15;
   yBuffer = windowHeight*0.15;
+  activeBlock = currentBlock;
 }
 
 function draw() {
@@ -46,9 +50,10 @@ function draw() {
 
   blockBar();
 
-  console.log(mouseX, mouseY);
+  //console.log(mouseX, mouseY);
 
   console.log(currentBlock);
+  console.log(numOfEndpoints, numOfSpawnpoints);
 
   eraserIcon();
 }
@@ -77,13 +82,24 @@ function displayGrid () {
         grid[y][x] = wallBlock;
       }
 
-      if (grid[y][x] === 0) {
+      if (grid[y][x] === 0) { //if a certain block is on the screen then it colors that cell that block
         fill(156, 140, 132);
+        rect(x*cellwidth + xBuffer, y*cellHeight + yBuffer, cellwidth, cellHeight);
       }
       else if (grid[y][x] === 1) {
         fill(200);
+        rect(x*cellwidth + xBuffer, y*cellHeight + yBuffer, cellwidth, cellHeight);
       }
-      rect(x*cellwidth + xBuffer, y*cellHeight + yBuffer, cellwidth, cellHeight);
+      else if (grid[y][x] === 2) {
+        fill(255);
+        rect(x*cellwidth + xBuffer, y*cellHeight + yBuffer, cellwidth, cellHeight);
+      }
+      else if (grid[y][x] === 3) {
+        image(startIcon, x*cellwidth + xBuffer, y*cellHeight + yBuffer, cellwidth, cellHeight);
+      }
+      else if (grid[y][x] === 4) {
+        image(endIcon, x*cellwidth + xBuffer, y*cellHeight + yBuffer, cellwidth, cellHeight);
+      }
     }
   }
 }
@@ -94,9 +110,11 @@ function mouseDragged() {
 
   if (activeE === "lightblue") { //making an eraser
     swapE(cellX, cellY);
+    activeBlock = 0;
   }
   if (activeB === "lightblue") { //making a block placer
     swapB(cellX, cellY);
+    activeBlock = 1;
   }
 
 
@@ -117,24 +135,28 @@ function mouseDragged() {
   if (mouseX >= 250 && mouseX <= 290) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = wallBlock;
+      activeBlock = 1;
     }
   }
 
   if (mouseX >= 330 && mouseX <= 370) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = metalblock;
+      activeBlock = 2;
     }
   }
 
   if (mouseX >= 410 && mouseX <= 450) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = spawnPoint;
+      activeBlock = 3;
     }
   }
 
   if (mouseX >= 490 && mouseX <= 530) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = endPoint;
+      activeBlock = 4;
     }
   }
 }
@@ -145,9 +167,12 @@ function mousePressed() {
 
   if (activeE === "lightblue") { //making an eraser
     swapE(cellX, cellY);
+    activeBlock = 0;
   }
+
   if (activeB === "lightblue") { //making a block placer
     swapB(cellX, cellY);
+    activeBlock = 1;
   }
 
 
@@ -168,42 +193,75 @@ function mousePressed() {
   if (mouseX >= 250 && mouseX <= 290) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = wallBlock;
+      activeBlock = 1;
     }
   }
 
   if (mouseX >= 330 && mouseX <= 370) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = metalblock;
+      activeBlock = 2;
     }
   }
 
   if (mouseX >= 410 && mouseX <= 450) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = spawnPoint;
+      activeBlock = 3;
     }
   }
 
   if (mouseX >= 490 && mouseX <= 530) {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = endPoint;
+      activeBlock = 4;
     }
   }
 }
 
 function swapB(x, y) {
   if (x >= 1 && x < rows - 1 && y >= 1 && y < cols - 1) {
-    if (grid[y][x] === 0) {
-      grid[y][x] = 1;
+    if (currentBlock === spawnPoint || currentBlock === endPoint) {
+      if (currentBlock === spawnPoint) {
+        if (numOfSpawnpoints <= 0) {
+          if (grid[y][x] === endPoint) {
+            numOfEndpoints -= 1;
+          }
+          grid[y][x] = currentBlock;
+          numOfSpawnpoints += 1;
+        }
+      }
+      if (currentBlock === endPoint) {
+        if (numOfEndpoints <= 0) {
+          if (grid[y][x] === spawnPoint) {
+            numOfSpawnpoints -= 1;
+          }
+          grid[y][x] = currentBlock;
+          numOfEndpoints += 1;
+        }
+      }
+    }
+    if (currentBlock !== spawnPoint && currentBlock !== endPoint) {
+      if (grid[y][x] === spawnPoint) {
+        numOfSpawnpoints -= 1;
+      }
+      if (grid[y][x] === endPoint) {
+        numOfEndpoints -= 1;
+      }
+      grid[y][x] = currentBlock;
     }
   }
 }
 
 function swapE(x,y) {
-  if (x >= 1 && x < rows - 1 && y >= 1 && y < cols
-     - 1) {
-    if (grid[y][x] === 1) {
-      grid[y][x] = 0;
+  if (x >= 1 && x < rows - 1 && y >= 1 && y < cols - 1) {
+    if (grid[y][x] === spawnPoint) {
+      numOfSpawnpoints -= 1;
     }
+    if (grid[y][x] === endPoint) {
+      numOfEndpoints -= 1;
+    }
+    grid[y][x] = 0;
   }
 }
 
@@ -238,13 +296,30 @@ function blockBar() {
 }
 
 function blocks() {
+  if (activeBlock === 1) {
+    fill ("blue");
+    rect(240, 705, 60, 60);
+  }
   fill(200);
   rect(250, 715, 40, 40); //wall block
   
+  if (activeBlock === 2) {
+    fill ("blue");
+    rect(320, 705, 60, 60);
+  }
   fill(255);
   rect(330, 715, 40, 40); //metal block
   
+  if (activeBlock === 3) {
+    fill ("blue");
+    rect(400, 705, 60, 60);
+  }
   image(startIcon, 410, 715, 40, 40); //start position
+
+  if (activeBlock === 4) {
+    fill ("blue");
+    rect(480, 705, 60, 60);
+  }
   image(endIcon, 490, 715, 40, 40);//end position
 }
 
