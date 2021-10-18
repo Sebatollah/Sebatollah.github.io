@@ -19,6 +19,7 @@ let spawnPoint = 3;
 let endPoint = 4;
 let endIcon;
 let startIcon;
+let saveIcon;
 let currentBlock = 1;
 let numOfSpawnpoints = 0;
 let numOfEndpoints = 0;
@@ -26,6 +27,7 @@ let numOfEndpoints = 0;
 function preload() {
   endIcon = loadImage("assets/end-pos-icon.png");
   startIcon = loadImage("assets/Old hero1.png");
+  saveIcon = loadImage("assets/disk-1.png");
 }
 
 function setup() {
@@ -50,10 +52,14 @@ function draw() {
 
   blockBar();
 
+  gameTitle();
+
+  saveLevel();
+
   //console.log(mouseX, mouseY);
 
-  console.log(currentBlock);
-  console.log(numOfEndpoints, numOfSpawnpoints);
+  console.log(activeBlock);
+  //console.log(numOfEndpoints, numOfSpawnpoints);
 
   eraserIcon();
 }
@@ -110,8 +116,8 @@ function mouseDragged() {
 
   if (activeE === "lightblue") { //making an eraser
     swapE(cellX, cellY);
-    activeBlock = 0;
   }
+
   if (activeB === "lightblue") { //making a block placer
     swapB(cellX, cellY);
     activeBlock = 1;
@@ -276,6 +282,12 @@ function createGrid(howLarge) {
   return emptyArray;
 }
 
+function gameTitle() {
+  textSize(40);
+  fill("black");
+  text("LevelEditor",650,20,100,50);
+}
+
 function blockIcon() {
   fill(activeB);
   stroke("white");
@@ -293,6 +305,10 @@ function blockBar() {
   textSize(20);
   text("Blocks", width/2 - 50, 640, 40, 30);
   blocks();
+}
+
+function saveLevel() {
+  
 }
 
 function blocks() {
