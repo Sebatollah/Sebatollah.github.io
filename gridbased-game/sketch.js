@@ -31,7 +31,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1599,788);//1599,788
 
   grid = createGrid(colsloc, rows); //making the grid and putting it in the center of the screen
   cellwidth = 0.65*width / rows;
@@ -54,11 +54,11 @@ function draw() {
 
   gameTitle();
 
-  saveLevel();
+  savefile();
 
   //console.log(mouseX, mouseY);
 
-  console.log(activeBlock);
+  //console.log(activeBlock);
   //console.log(numOfEndpoints, numOfSpawnpoints);
 
   eraserIcon();
@@ -165,6 +165,12 @@ function mouseDragged() {
       activeBlock = 4;
     }
   }
+
+  if (mouseX >= 45 && mouseX <= 105) {
+    if (mouseY >= 380 && mouseY <= 440) {
+      saveLevel();
+    }
+  }
 }
 
 function mousePressed() {
@@ -221,6 +227,12 @@ function mousePressed() {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = endPoint;
       activeBlock = 4;
+    }
+  }
+
+  if (mouseX >= 45 && mouseX <= 105) {
+    if (mouseY >= 330 && mouseY <= 440) {
+      saveLevel();
     }
   }
 }
@@ -307,8 +319,15 @@ function blockBar() {
   blocks();
 }
 
+function savefile() {
+  image(saveIcon, 45, 380, 60, 60);
+}
+
 function saveLevel() {
-  
+  stroke("black");
+  fill("white");
+  rect(width*0.2, height/2-10, width*0.8, 20);
+  console.log(width*0.2, height/2-10, width*0.8, 20);
 }
 
 function blocks() {
@@ -350,7 +369,9 @@ function eraserIcon() {
   rotate(15);
   rect(40,45,40,10);
 
+  push();
   translate(17,27);
   rotate(0.3);
   rect(17,27,50,70);
+  pop();
 }
