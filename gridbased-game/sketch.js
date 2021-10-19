@@ -20,14 +20,17 @@ let endPoint = 4;
 let endIcon;
 let startIcon;
 let saveIcon;
+let arrowIcon;
 let currentBlock = 1;
 let numOfSpawnpoints = 0;
 let numOfEndpoints = 0;
+let returnToMajorProject = false;
 
 function preload() {
   endIcon = loadImage("assets/end-pos-icon.png");
   startIcon = loadImage("assets/Old hero1.png");
   saveIcon = loadImage("assets/disk-1.png");
+  arrowIcon = loadImage("assets/rodyk.png");
 }
 
 function setup() {
@@ -56,7 +59,17 @@ function draw() {
 
   savefile();
 
+  goBackToMajorProject();
+
   eraserIcon();
+}
+
+function goBackToMajorProject() {
+  image(arrowIcon, 1499, 40, 100, 50);
+
+  if (returnToMajorProject === true) {
+    window.location = "https://sebatollah.github.io/Major-Project/";
+  }
 }
 
 function displayGrid () {
@@ -118,7 +131,6 @@ function mouseDragged() {
     activeBlock = 1;
   }
 
-  console.log(grid);
 
   if (mouseX >= 30 && mouseX <= 120) {
     if (mouseY >= 90 && mouseY <= 190) {
@@ -159,6 +171,12 @@ function mouseDragged() {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = endPoint;
       activeBlock = 4;
+    }
+  }
+
+  if (mouseX >= 45 && mouseX <= 105) {
+    if (mouseY >= 380 && mouseY <= 440) {
+      saveLevel();
     }
   }
 }
@@ -223,6 +241,12 @@ function mousePressed() {
   if (mouseX >= 45 && mouseX <= 105) {
     if (mouseY >= 330 && mouseY <= 440) {
       saveLevel();
+    }
+  }
+
+  if (mouseX >= 1499 && mouseX <= 1599) {
+    if (mouseY >= 40 && mouseY <= 90) {
+      returnToMajorProject = true;
     }
   }
 }
@@ -314,7 +338,11 @@ function savefile() {
 }
 
 function saveLevel() {
-  saveJSON(grid, "your-level.json");
+  stroke("black");
+  fill("white");
+  rect(width*0.2, height/2-10, width*0.8, 20);
+  console.log(width*0.2, height/2-10, width*0.8, 20);
+  // has to be saved as a json
 }
 
 function blocks() {
