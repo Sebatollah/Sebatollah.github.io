@@ -56,11 +56,6 @@ function draw() {
 
   savefile();
 
-  //console.log(mouseX, mouseY);
-
-  //console.log(activeBlock);
-  //console.log(numOfEndpoints, numOfSpawnpoints);
-
   eraserIcon();
 }
 
@@ -123,6 +118,7 @@ function mouseDragged() {
     activeBlock = 1;
   }
 
+  console.log(grid);
 
   if (mouseX >= 30 && mouseX <= 120) {
     if (mouseY >= 90 && mouseY <= 190) {
@@ -163,12 +159,6 @@ function mouseDragged() {
     if (mouseY >= 715 && mouseY <= 755) {
       currentBlock = endPoint;
       activeBlock = 4;
-    }
-  }
-
-  if (mouseX >= 45 && mouseX <= 105) {
-    if (mouseY >= 380 && mouseY <= 440) {
-      saveLevel();
     }
   }
 }
@@ -324,10 +314,7 @@ function savefile() {
 }
 
 function saveLevel() {
-  stroke("black");
-  fill("white");
-  rect(width*0.2, height/2-10, width*0.8, 20);
-  console.log(width*0.2, height/2-10, width*0.8, 20);
+  saveJSON(grid, "your-level.json");
 }
 
 function blocks() {
@@ -369,9 +356,7 @@ function eraserIcon() {
   rotate(15);
   rect(40,45,40,10);
 
-  push();
   translate(17,27);
   rotate(0.3);
   rect(17,27,50,70);
-  pop();
 }
