@@ -173,12 +173,6 @@ function mouseDragged() {
       activeBlock = 4;
     }
   }
-
-  if (mouseX >= 45 && mouseX <= 105) {
-    if (mouseY >= 380 && mouseY <= 440) {
-      saveLevel();
-    }
-  }
 }
 
 function mousePressed() {
@@ -338,11 +332,7 @@ function savefile() {
 }
 
 function saveLevel() {
-  stroke("black");
-  fill("white");
-  rect(width*0.2, height/2-10, width*0.8, 20);
-  console.log(width*0.2, height/2-10, width*0.8, 20);
-  // has to be saved as a json
+  saveJSON(grid, "your-level.json");
 }
 
 function blocks() {
