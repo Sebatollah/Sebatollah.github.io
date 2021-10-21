@@ -100,18 +100,18 @@ function displayGrid() {
   }
 }
 
-function createRandomArray(howLarge) {
-  let newArray = [];
-  for (let y=0; y<howLarge; y++) {
-    newArray.push([]);
-    for (let x=0; x<howLarge; x++) {
-      if (random(0, 100) > 50) {
-        newArray[y].push(0);
-      }
-      else {
-        newArray[y].push(1);
-      }
-    }
-  }
-  return newArray;
-}
+// function createRandomArray(howLarge) {
+//   let newArray = [];
+//   for (let y=0; y<howLarge; y++) {
+//     newArray.push([]);
+//     for (let x=0; x<howLarge; x++) {
+//       if (random(0, 100) > 50) {
+//         newArray[y].push(0);
+//       }
+//       else {
+//         newArray[y].push(1);
+//       }
+//     }
+//   }
+//   return newArray;
+// }
