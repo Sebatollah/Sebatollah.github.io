@@ -17,9 +17,8 @@ let dy = 1;
 let airtime = false;
 let flooring;
 let pushingLine;
-let startGame = true;
-let levelEditor = false;
 let d;
+let pushSpeed = 5;
 
 function preload() {
   player = loadImage("assets/Old hero1.png"); //load player image
@@ -39,7 +38,6 @@ let rightwallhit = false;
 
 function draw() {
   background(156, 140, 132);//156, 140, 132
-  makeStartingScreen();
   //
   d = dist(width * 0.45 - 25, rectY + 5, playerX + radius, playerY + radius);
   //
@@ -65,26 +63,47 @@ function draw() {
   //
   createPushingLine();
   //
-}
-function createPushingLine() {
-  if (startGame === true) {
-    translate(width * 0.45 - 25, rectY + 5);
-    pushingLine = atan2(playerY-(rectY + 5) + radius, playerX-(width * 0.45 - 25) + radius);
-    rotate(pushingLine);
-    //fill(0,180,220, 100);
-    //rect(0, 0, width * 0.45 -25 + 100 - radius, 10);
-    stroke ("blue");
-    line(0, 0, d, 0);
-    console.log(d);
-    // console.log(0, 0, -playerX, -playerY);
+  if (mouseIsPressed === true) {
+    if (mouseButton === LEFT) {
+      if (mouseX >= width * 0.45 - 50 && mouseX <= width * 0.45) {
+        if (mouseY >= rectY && mouseY <= rectY + 10) {
+          steelPush();
+        }
+      }
+    }
+    else if (mouseButton === RIGHT) {
+      if (mouseX >= width * 0.45 - 50 && mouseX <= width * 0.45) {
+        if (mouseY >= rectY && mouseY <= rectY + 10) {
+          ironPull();
+        }
+      }
+    }
   }
 }
 
+function createPushingLine() {
+  push();
+  translate(width * 0.45 - 25, rectY + 5);
+  pushingLine = atan2(playerY-(rectY + 5) + radius, playerX-(width * 0.45 - 25) + radius);
+  rotate(pushingLine);
+  stroke (0,123,255, 240);
+  line(0, 0, d, 0);
+  pop();
+}
+
+function steelPush() {
+  playerX += cos(pushingLine) * pushSpeed;
+  playerY += sin(pushingLine) * pushSpeed;
+}
+
+function ironPull() {
+  playerX -= cos(pushingLine) * pushSpeed;
+  playerY -= sin(pushingLine) * pushSpeed;
+}
+
 function drawMetal() {
-  if (startGame === true) {
-    fill(255);
-    rect(width * 0.45 - 50, rectY, 50, 10);
-  }
+  fill(255);
+  rect(width * 0.45 - 50, rectY, 50, 10);
 }
 
 function gravity() { //checks whether the player is above the wall or not and if the player is it sets that to be the floor it
@@ -105,69 +124,20 @@ function gravity() { //checks whether the player is above the wall or not and if
   }
 }
 
-function makeStartingScreen() {
-  if (startGame === false) {
-    if (levelEditor === false) {
-      background("grey");
-
-      fill("darkgrey");
-      rect(width/2 - 250, height/2 - 10, 500, 130);//start button
-  
-      textSize(80);
-      fill("blue");
-      text("SEBASTIAN'S PROJECT GAME", width/2 - 600, height*0.3, 1250, 1000);//title
-      
-      textSize(40);
-      fill("black");
-      text("CLICK TO START", width/2 - 150, height/2 + 30, 500, 130);//start button
-  
-      fill("darkgrey");
-      rect(width/2 - 250, height*0.75 - 10, 500, 130);// level maker button
-  
-      textSize(40);
-      fill("black");
-      text("LEVEL EDITOR", width/2 - 150, height*0.75 + 30, 500, 130);
-    }
-  }
-}
-
-function mouseClicked() {
-  if (startGame === false) {
-    if (mouseX >= width/2 - 250 && mouseX <= width/2 + 250) {
-      if (mouseY >= height/2 - 10 && mouseY <= height/2 +120) {
-        startGame = true;
-      }
-    }
-  }
-  if (levelEditor === false) {
-    if (mouseX >= width/2 - 250 && mouseX <= width/2 + 250) {
-      if (mouseY >= height*0.75 - 10 && mouseY <= height*0.75 + 120) {
-        levelEditor = true;
-      }
-    }
-  }
-}
-
 function drawFloor() {
-  if (startGame === true) {
-    noStroke();
-    fill(200);
-    rect(0, rectY, width, height * 0.1);
-  }
+  noStroke();
+  fill(200);
+  rect(0, rectY, width, height * 0.1);
 }
 
 function drawWall() {
-  if (startGame === true) {
-    noStroke();
-    fill(200);
-    rect(width * 0.45, rectY - 200, 50, 200);
-  }
+  noStroke();
+  fill(200);
+  rect(width * 0.45, rectY - 200, 50, 200);
 }
 
 function drawPlayer() {
-  if (startGame === true) {
-    image(player, playerX, playerY, radius * 2, radius * 2);
-  }
+  image(player, playerX, playerY, radius * 2, radius * 2);
 }
 
 function floorhitbox() { //whenever the player touches the hitbox it activates anything to do with the hitbox
@@ -223,21 +193,6 @@ function topOfWallhitbox() {
 }
 
 function handleKeys() { //allows movement
-  if (keyIsDown(87)) {
-  //w
-    if (playerY > 0) {
-      playerY -= speed;
-    }
-  }
-
-  if (keyIsDown(83)) {
-  //s
-    if (floorhit === false) {
-      if (topOfWallhit === false) {
-        playerY += speed;
-      }
-    }
-  }
   if (keyIsDown(65)) {
     //a
     if (playerX > 0) {
